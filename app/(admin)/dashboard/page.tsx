@@ -29,7 +29,7 @@ export default async function Home() {
           ) : (
             <div className="flex justify-center items-center relative lg:right-24">
               <h1 className="text-2xl font-bold dark:text-white text-black">
-                No posts found
+                No posts found.
               </h1>
             </div>
           )}
