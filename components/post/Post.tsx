@@ -76,6 +76,10 @@ export default function PostDetails({
   }, [comments]);
 
   const handleVote = async (choice: "firstChoice" | "secondChoice") => {
+    if (!session.data?.user) {
+      toast.error("You need to login to vote");
+      return;
+    }
     const voteAction = await votePost(choice, userId, localPost.id);
     if (!voteAction) {
       toast.error("You have already voted");

@@ -3,6 +3,7 @@ import { DownVote, UpVote } from "@prisma/client";
 import type { SessionContextValue } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { commentAction } from "../action/comment.action";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -58,6 +59,13 @@ export default function Comment({
     });
     setCommentValue("");
   };
+  const handleTextAreaFocus = () => {
+    if (!session.data?.user) {
+      const textArea = document.getElementById("textarea");
+      textArea?.blur();
+      return toast.error("You need to be logged in to comment.");
+    }
+  };
   return (
     <div>
       <div className="flex flex-col space-y-3 p-4 justify-center items-center">
@@ -66,7 +74,9 @@ export default function Comment({
           is inadequate.
         </span>
         <Textarea
+          id="textarea"
           value={commentValue}
+          onFocus={() => handleTextAreaFocus()}
           onChange={(e) => setCommentValue(e.target.value)}
           placeholder="Leave a comment"
         />
@@ -94,12 +104,12 @@ export default function Comment({
                     <Image
                       alt={`profile image of ${
                         localCommenters.find(
-                          (commenter) => commenter.id === comment.authorId
+                          (commenter) => commenter?.id === comment.authorId
                         )?.name
                       }`}
                       src={
                         localCommenters.find(
-                          (commenter) => commenter.id === comment.authorId
+                          (commenter) => commenter?.id === comment.authorId
                         )?.image as string
                       }
                       width={8}
@@ -109,7 +119,7 @@ export default function Comment({
                     <span className="text-[0.8rem] text-slate-500 relative bottom-px">
                       {
                         localCommenters.find(
-                          (commenter) => commenter.id === comment.authorId
+                          (commenter) => commenter?.id === comment.authorId
                         )?.name
                       }
                     </span>

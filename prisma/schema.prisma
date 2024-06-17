@@ -49,6 +49,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
+  role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
@@ -58,6 +59,11 @@ model User {
   downvotes    DownVote[]
  
   @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Post {

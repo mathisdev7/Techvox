@@ -1,15 +1,17 @@
 "use server";
-import { Post } from "@/components/landing/Post";
+import { auth } from "@/auth/auth";
+import { Post } from "@/components/dashboard/Post";
 import Section from "@/components/landing/Section";
 import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
+  const session = await auth();
+  if (session?.user.role !== "ADMIN") return;
   const posts = await prisma.post.findMany({
     where: {
-      published: true,
+      published: false,
     },
   });
-  const comments = await prisma.comment.findMany();
 
   return (
     <main>
@@ -22,7 +24,7 @@ export default async function Home() {
           </div>
           {posts.length > 0 ? (
             <div className="flex justify-center items-center relative lg:right-24">
-              <Post posts={posts} comments={comments} />
+              <Post posts={posts} />
             </div>
           ) : (
             <div className="flex justify-center items-center relative lg:right-24">

@@ -3,12 +3,20 @@ import { Post } from "@/components/landing/Post";
 import Section from "@/components/landing/Section";
 import { prisma } from "@/lib/prisma";
 
-export default async function Home() {
-  const posts = await prisma.post.findMany({
+export default async function New() {
+  let posts = await prisma.post.findMany({
     where: {
       published: true,
     },
+    include: {
+      votes: true,
+      comments: true,
+    },
   });
+  posts.sort(
+    (a, b) =>
+      b.votes.length + b.comments.length - (a.votes.length + a.comments.length)
+  );
   const comments = await prisma.comment.findMany();
 
   return (

@@ -1,9 +1,11 @@
 "use client";
 import { Icons } from "@/lib/assets/icons";
-import { CircleX } from "lucide-react";
+import { CircleX, Lock } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function MobileSection() {
+  const session = useSession();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const toggleNav = () => {
@@ -48,14 +50,29 @@ export default function MobileSection() {
               <Icons.plus className="size-[1.5rem]" />
               Create Post
             </a>
-            <a className="font-bold text-2xl py-2 rounded-xl flex flex-row justify-center items-center gap-2 text-white">
+            <a
+              href="/post/popular"
+              className="font-bold text-2xl py-2 rounded-xl flex flex-row justify-center items-center gap-2 text-white"
+            >
               <Icons.star className="size-[1.5rem]" />
               Popular Posts
             </a>
-            <a className="font-bold text-2xl py-2 rounded-xl flex flex-row justify-center items-center gap-2 text-white">
+            <a
+              href="/post/new"
+              className="font-bold text-2xl py-2 rounded-xl flex flex-row justify-center items-center gap-2 text-white"
+            >
               <Icons.zap className="size-[1.5rem]" />
               New Posts
             </a>
+            {session?.data?.user && session?.data.user.role === "ADMIN" ? (
+              <a
+                href="/dashboard"
+                className="font-bold text-2xl py-2 rounded-xl flex flex-row justify-center items-center gap-2 text-white"
+              >
+                <Lock className="size-[1.5rem]" />
+                Dashboard
+              </a>
+            ) : null}
           </div>
           <div className="absolute top-2 left-3">
             <CircleX

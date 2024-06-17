@@ -17,10 +17,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async session({ session, user }: { session: Session; user: any }) {
       session.user.id = user.id;
+      session.user.role = user.role;
       return session as any;
     },
     async jwt({ token, user }: { token: any; user: any }) {
       token.id = user.id;
+      token.role = user.role;
       return token;
     },
   },

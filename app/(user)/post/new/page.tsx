@@ -3,10 +3,13 @@ import { Post } from "@/components/landing/Post";
 import Section from "@/components/landing/Section";
 import { prisma } from "@/lib/prisma";
 
-export default async function Home() {
+export default async function New() {
   const posts = await prisma.post.findMany({
     where: {
       published: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   const comments = await prisma.comment.findMany();

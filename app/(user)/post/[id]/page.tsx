@@ -8,6 +8,7 @@ export default async function Post({ params }: { params: { id: string } }) {
   const post = await prisma.post.findUnique({
     where: {
       id: params.id,
+      published: true,
     },
   });
   if (!post) return null;

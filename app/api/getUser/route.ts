@@ -1,17 +1,7 @@
-import { auth } from "@/auth/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const session = await auth();
-  if (!session) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
   const { searchParams } = new URL(req.url as string);
   if (!searchParams.has("userId")) {
     return new NextResponse(
