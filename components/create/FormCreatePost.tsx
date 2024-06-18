@@ -63,7 +63,7 @@ export default function FormCreatePost() {
               <div className="grid gap-2">
                 <Label htmlFor="email">Description</Label>
                 <Textarea
-                  id="text"
+                  id="textarea"
                   onChange={(e) =>
                     setPostData({
                       ...postData,
@@ -362,6 +362,21 @@ export default function FormCreatePost() {
                 }
                 if (color.firstChoice === color.secondChoice) {
                   return toast.error("Colors must be different");
+                }
+                if (
+                  postData.description === "" ||
+                  postData.firstChoice.title === "" ||
+                  postData.secondChoice.title === ""
+                ) {
+                  return toast.error("Please fill out all fields");
+                }
+                if (
+                  postData.firstChoice.title === postData.secondChoice.title
+                ) {
+                  return toast.error("Titles must be different");
+                }
+                if (!session.data?.user) {
+                  return toast.error("Please sign in to create a post");
                 }
                 createPostAction(postData, color, userId).then(() => {
                   router.push("/");
