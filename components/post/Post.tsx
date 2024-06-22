@@ -112,7 +112,7 @@ export default function PostDetails({
               className={`w-full h-full flex items-center justify-center ${localPost.firstChoiceColor} animate-slideFromLeft`}
             >
               <span className="text-sm font-black truncate drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-white animation">
-                {firstChoicePercentage}%
+                {firstChoicePercentage.toFixed(2)}%
               </span>
             </div>
             <div
@@ -122,7 +122,7 @@ export default function PostDetails({
               className={`flex items-center justify-center ${localPost.secondChoiceColor} animate-slideFromRight`}
             >
               <span className="text-sm font-black truncate drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-white">
-                {secondChoicePercentage}%
+                {secondChoicePercentage.toFixed(2)}%
               </span>
             </div>
           </div>

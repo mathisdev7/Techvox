@@ -3,6 +3,7 @@
 import { Icons } from "@/lib/assets/icons";
 import { DownVote, UpVote } from "@prisma/client";
 import { useState } from "react";
+import { toast } from "sonner";
 import { downVoteAction } from "../action/downVote.action";
 import { upVoteAction } from "../action/upVote.action";
 
@@ -50,6 +51,9 @@ export default function CommentsVotes({
         <Icons.chevronsUp
           className="size-5"
           onClick={async () => {
+            if (!userId) {
+              return toast.error("You need to be logged in to upvote");
+            }
             handleUpVote();
           }}
         />
@@ -58,6 +62,9 @@ export default function CommentsVotes({
       <div className="flex flex-row gap-px">
         <Icons.chevronsDown
           onClick={async () => {
+            if (!userId) {
+              return toast.error("You need to be logged in to downvote");
+            }
             handleDownVote();
           }}
           className="size-5"
